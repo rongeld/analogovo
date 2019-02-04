@@ -21,9 +21,6 @@ const UserSchema = new Schema({
     type: String,
     required: true
   },
-  avatar: {
-    type: String
-  },
   date: {
     type: Date,
     default: Date.now //Default means that the date will be set automatically
