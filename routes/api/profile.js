@@ -5,6 +5,11 @@ const router = express.Router();
 const mongoose = require('mongoose');
 const passport = require('passport');
 
+//mongoose.set('useFindAndModify', false)
+
+// Load validation
+const validateProfileInput = require('../../validation/profile')
+
 // Load Profile Model
 const Profile = require('../../models/Profile');
 // Load User Model
@@ -22,6 +27,7 @@ router.get("/test", (req, res) => res.json({ msg: "Profile Works" }));
 router.get('/', passport.authenticate('jwt', {session: false}), (req, res) => {
     const errors = {}
     Profile.findOne({ user: req.user.id })
+        .populate('user', ['name', 'camera'])
         .then(profile => {
             if (!profile) {
                 errors.noProfile = 'There is no profile for this user';
@@ -37,6 +43,14 @@ router.get('/', passport.authenticate('jwt', {session: false}), (req, res) => {
 // @access  Private
 router.post('/', passport.authenticate('jwt', {session: false}), 
     (req, res) => {
+        const {errors, isValid} = validateProfileInput(req.body);
+
+        // CHeck validation
+        if (!isValid) {
+            // return any errors with 400
+            return res.status(400).json(errors);
+        }
+
     
         // Get Fields
         const profileFields = {};
@@ -50,6 +64,7 @@ router.post('/', passport.authenticate('jwt', {session: false}),
         if(req.body.linkedin) profileFields.social.linkedin = req.body.linkedin
 
         Profile.findOne({user: req.user.id})
+            .populate('user', ['name', 'camera'])
             .then(profile => {
                 if(profile) {
                     //Update
@@ -58,12 +73,14 @@ router.post('/', passport.authenticate('jwt', {session: false}),
                         {$set: profileFields}, 
                         {new: true}
                     )
+                    .populate('user', ['name', 'camera'])
                     .then(profile => res.json(profile));
                 } else {
                     //create
 
                     // Check if handle exists
                     Profile.findOne({ handle: profileFields.handle })
+                        .populate('user', ['name', 'camera'])
                         .then(profile => {
                             if (profile) {
                                 errors.handle = 'That handle already exists';
