@@ -5,7 +5,7 @@ const router = express.Router();
 const mongoose = require('mongoose');
 const passport = require('passport');
 
-//mongoose.set('useFindAndModify', false)
+
 
 // Load validation
 const validateProfileInput = require('../../validation/profile')
@@ -20,6 +20,24 @@ const User = require('../../models/User');
 // @desc    Tests profile route
 // @access  Public
 router.get("/test", (req, res) => res.json({ msg: "Profile Works" }));
+
+// @route   GET api/profile/all
+// @desc    Get all profiles
+// @access  Public
+
+router.get('/all', (req, res) => {
+    const errors = {}
+   Profile.find()
+   .populate('user', ['name', 'camera'])
+   .then(profiles => {
+       if (!profiles) {
+            errors.noProfile = 'There are no profiles for this user';
+           return res.status(404).json(errors)
+       }
+
+       res.json(profiles);
+   }).catch(err => res.status(404).json(errors))
+});
 
 // @route   GET api/profile
 // @desc    Get current users profile
@@ -37,6 +55,46 @@ router.get('/', passport.authenticate('jwt', {session: false}), (req, res) => {
         })
         .catch(err => res.status(404).json(err))
 })
+
+// @route   GET api/profile/camera/:camera
+// @desc    Get profile by camera
+// @access  Public
+
+router.get('/camera/:camera', (req, res) => {
+    const errors = {};
+    Profile.findOne({camera: req.params.camera})
+        .populate('user', ['name', 'camera'])
+        .then(profile => {
+            if(!profile) {
+                errors.noprofile = 'There is no profile for this user';
+                res.status(404).json(errors);
+            }
+
+            res.json(profile)
+        })
+        .catch(err => res.status(404).json(err))
+
+});
+
+// @route   GET api/profile/user/:user_id
+// @desc    Get profile by user ID
+// @access  Public
+
+router.get('/user/:user_id', (req, res) => {
+    const errors = {};
+    Profile.findOne({user: req.params.user_id})
+        .populate('user', ['name', 'camera'])
+        .then(profile => {
+            if(!profile) {
+                errors.noprofile = 'There is no profile for this user';
+                res.status(404).json(errors);
+            }
+
+            res.json(profile)
+        })
+        .catch(err => res.status(404).json(err))
+
+});
 
 // @route   POST api/profile
 // @desc    create or edit user profile
