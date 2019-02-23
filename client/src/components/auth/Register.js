@@ -6,6 +6,32 @@ import CameraIcon from "../../img/camera-icon.png";
 import {Link} from 'react-router-dom';
 
 class Register extends Component {
+
+    state = {
+        name: '',
+        email: '',
+        camera: '',
+        password: '',
+        errors: {}
+    }
+
+    onRegisterHandler = (e) => {
+        this.setState({[e.target.name]: e.target.value})
+    }
+
+    onSubmit = (e) => {
+        e.preventDefault();
+
+        const newUser = {
+            name: this.state.name,
+            email: this.state.email,
+            camera: this.state.camera,
+            password: this.state.password,
+        }
+
+        console.log(newUser)
+    }
+
   render() {
     return (
         <div className="login-page__content login-page__animated">
@@ -15,20 +41,23 @@ class Register extends Component {
             <span>XXX</span>
           </div>
           <p>analog photography community</p>
-          <form id="form">
+          <form id="form" onSubmit={this.onSubmit}>
             <input
               type="text"
-              name="firstName"
-              placeholder="First Name"
+              name="name"
+              placeholder="Name"
+              value={this.state.name}
+              onChange={this.onRegisterHandler}
             />
-
-            <input type="text" name="lastName" placeholder="Last Name" />
-            <input type="email" name="email" placeholder="Email" />
-
+            <input type="email" name="email" placeholder="Email" value={this.state.email} onChange={this.onRegisterHandler}/>
+            <input type="text" name="camera" placeholder="Camera" value={this.state.camera} onChange={this.onRegisterHandler}/>
+            
             <input
               type="password"
               name="password"
               placeholder="Password"
+              value={this.state.password}
+              onChange={this.onRegisterHandler}
             />
           </form>
         </div>
