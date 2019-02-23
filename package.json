@@ -13,6 +13,7 @@
   "author": "Andrii Zakrevskyi",
   "license": "MIT",
   "dependencies": {
+    "@material-ui/icons": "^3.0.2",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",
     "concurrently": "^4.1.0",
