@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import CameraIcon from "../../img/camera-icon.png";
 
 import axios from 'axios';
+import classnames from 'classnames'
 
 
 
@@ -33,11 +34,12 @@ class Register extends Component {
 
         axios.post('/api/users/register', newUser)
           .then(res => console.log(res.data))
-          .catch(err => console.log(err.response.data))
+          .catch(err => this.setState({errors: err.response.data}))
 
     }
 
   render() {
+    const {errors} = this.state;
     return (
         <div className="login-page__content login-page__animated">
         <div className="login-page__content--top">
@@ -51,11 +53,15 @@ class Register extends Component {
               type="text"
               name="name"
               placeholder="Name"
+              className={classnames({'is-invalid': errors.name})}
               value={this.state.name}
               onChange={this.onRegisterHandler}
             />
-            <input type="text" name="email" placeholder="Email" value={this.state.email} onChange={this.onRegisterHandler}/>
-            <input type="text" name="camera" placeholder="Camera" value={this.state.camera} onChange={this.onRegisterHandler}/>
+            {errors.name && <p className="flyin-animation">{errors.name}</p>}
+            <input type="text" name="email" placeholder="Email" value={this.state.email} onChange={this.onRegisterHandler} className={classnames({'is-invalid': errors.email})}/>
+            {errors.email && <p className="flyin-animation">{errors.email}</p>}
+            <input type="text" name="camera" placeholder="Camera" value={this.state.camera} onChange={this.onRegisterHandler} className={classnames({'is-invalid': errors.camera})}/>
+            {errors.camera && <p className="flyin-animation">{errors.camera}</p>}
             
             <input
               type="password"
@@ -63,7 +69,10 @@ class Register extends Component {
               placeholder="Password"
               value={this.state.password}
               onChange={this.onRegisterHandler}
+              className={classnames({'is-invalid': errors.password})}
+              
             />
+            {errors.password && <p className="flyin-animation">{errors.password}</p>}
           </form>
         </div>
         <div className="login-page__content--bottom">

@@ -122,10 +122,17 @@ code {
   padding: 1rem;
   width: 100%;
   color: #9aa0a6;
+  transition: all .7s ease;
+  margin-bottom: 3px;
+  border: none;
+}
+
+.login-page__content--top span {
+  transition: all .7s ease;
 }
 
 .login-page__content--top h1 {
-  text-transform: uppercase;
+  text-transform: uppercase;  
   font-size: 4.2rem;
   text-align: center;
   letter-spacing: 6px;
@@ -272,4 +279,25 @@ code {
 
 .white-color {
   color: white;
+}
+
+/* Form validation */
+.is-invalid {
+  border: 2px solid red !important;
+}
+
+.login-page__content--top .flyin-animation {
+  animation-name: flyin-animation;
+  animation-duration: 1s;
+  position: relative;
+  margin-bottom: 5px !important;
+  font-size: 9px;
+  text-transform: capitalize;
+  color: red;
+  font-family: Roboto, sans-serif;
+}
+
+@keyframes flyin-animation {
+  from {opacity: 0; transform: translateX(-50%)}
+  to {opacity: 1; transform: translateX(0)}
 }
