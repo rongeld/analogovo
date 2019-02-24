@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import CameraIcon from "../../img/camera-icon.png";
 
+import axios from 'axios';
+
 
 
 import {Link} from 'react-router-dom';
@@ -29,7 +31,10 @@ class Register extends Component {
             password: this.state.password,
         }
 
-        console.log(newUser)
+        axios.post('/api/users/register', newUser)
+          .then(res => console.log(res.data))
+          .catch(err => console.log(err.response.data))
+
     }
 
   render() {
