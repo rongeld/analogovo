@@ -49,7 +49,7 @@ class Register extends Component {
               value={this.state.name}
               onChange={this.onRegisterHandler}
             />
-            <input type="email" name="email" placeholder="Email" value={this.state.email} onChange={this.onRegisterHandler}/>
+            <input type="text" name="email" placeholder="Email" value={this.state.email} onChange={this.onRegisterHandler}/>
             <input type="text" name="camera" placeholder="Camera" value={this.state.camera} onChange={this.onRegisterHandler}/>
             
             <input

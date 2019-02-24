@@ -261,3 +261,15 @@ code {
   color: #7c5b71;
 }
 
+.no-margin {
+  margin: 0;
+  margin-top: 5%;
+}
+
+.login-page__content--top-bg {
+  background: rgba(104, 92, 199, 0.6);
+}
+
+.white-color {
+  color: white;
+}
