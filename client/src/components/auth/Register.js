@@ -1,5 +1,8 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types';
 import CameraIcon from "../../img/camera-icon.png";
+import {connect} from 'react-redux';
+import {registeruser} from '../../actions/authActions';
 
 import axios from 'axios';
 import classnames from 'classnames'
@@ -32,14 +35,17 @@ class Register extends Component {
             password: this.state.password,
         }
 
-        axios.post('/api/users/register', newUser)
-          .then(res => console.log(res.data))
-          .catch(err => this.setState({errors: err.response.data}))
+        // axios.post('/api/users/register', newUser)
+        //   .then(res => console.log(res.data))
+        //   .catch(err => this.setState({errors: err.response.data}))
+
+        this.props.registeruser(newUser);
 
     }
 
   render() {
     const {errors} = this.state;
+
     return (
         <div className="login-page__content login-page__animated">
         <div className="login-page__content--top">
@@ -95,4 +101,13 @@ class Register extends Component {
   }
 }
 
-export default Register
+Register.propTypes = {
+  registerUser: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired
+}
+
+const mapStateToProps = (state) => ({
+  auth: state.auth
+})
+
+export default connect(mapStateToProps, {registeruser})(Register)
