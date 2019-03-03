@@ -294,6 +294,8 @@ code {
   font-size: 9px;
   text-transform: capitalize;
   font-family: Roboto, sans-serif;
+  color: white;
+  text-align: left;
 }
 
 @keyframes flyin-animation {
